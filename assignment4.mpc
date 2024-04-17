@@ -1,0 +1,25 @@
+
+project (assignment4) {
+  exename = assignment4
+  install = .
+ 
+  specific (make, gnuace) {
+    compile_flags += -std=c++11
+  }
+
+  Source_Files {
+    driver.cpp
+    Templates/*.h
+    PostFixCalc/*.h
+    TreeCalc/*.h
+  }
+
+  Template_Files {
+    Templates/*.h
+    PostFixCalc/*.h
+    TreeCalc/*.h
+    Stack.cpp
+    Array.cpp
+    Basic_Array.cpp
+  }
+}
