@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Command_Node.h"
+#include "Number_Node.h"
 
 class Op_Node : public Command_Node
 {
@@ -11,9 +12,8 @@ class Op_Node : public Command_Node
         Op_Node(std::unique_ptr<Command_Node> left, std::unique_ptr<Command_Node> right);
         //destructor
         ~Op_Node();
-        virtual void execute() = 0;
+        virtual std::unique_ptr<Number_Node> execute() = 0;
     protected:
-        std::unique_ptr<Command_Node> parent_;
         std::unique_ptr<Command_Node> left_;
         std::unique_ptr<Command_Node> right_;
 };

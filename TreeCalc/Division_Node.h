@@ -8,6 +8,8 @@ class Division_Node : public Op_Node
 public:
     Division_Node (std::unique_ptr<Command_Node> leftNode, std::unique_ptr<Command_Node> rightNode);
     ~Division_Node ();
+
+    std::unique_ptr<Number_Node> execute() override;
 };
 #include "Division_Node.h"
 #endif

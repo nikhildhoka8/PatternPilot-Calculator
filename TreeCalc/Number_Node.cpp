@@ -8,3 +8,8 @@ Number_Node::Number_Node(int num)
 Number_Node::~Number_Node()
 {
 }
+
+int Number_Node::get_value()
+{
+    return this->num_;
+}

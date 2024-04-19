@@ -8,6 +8,7 @@ class Number_Node: public Command_Node
 public:
     Number_Node(int num);
     ~Number_Node();
+    int getNumber();
 private:
     int num_;
 
