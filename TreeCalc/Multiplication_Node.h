@@ -5,8 +5,10 @@
 class Multiplication_Node : public Op_Node
 {
     public:
-        Multiplication_Node (std::unique_ptr<Command_Node> leftNode, std::unique_ptr<Command_Node> rightNode);
+        Multiplication_Node ();
         virtual ~Multiplication_Node();
+        int getPrecedence();
+        void token();
 };
 #include "Multiplication_Node.cpp"
 #endif // !MUltiplication_Node_h

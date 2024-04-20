@@ -3,13 +3,14 @@
 
 #include "Op_Node.h"
 
-
-
 class Modulus_Node : public Op_Node
 {
 public:
-    Modulus_Node (std::unique_ptr<Command_Node> leftNode, std::unique_ptr<Command_Node> rightNode);
+    Modulus_Node ();
     ~Modulus_Node(void);
+    int getPrecedence();
+    void token();
+
 };
 #include "Modulus_Node.cpp"
 #endif // !MODULUS_NODE_H

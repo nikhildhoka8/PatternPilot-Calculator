@@ -1,15 +1,20 @@
-#include <iostream>
 
-Number_Node::Number_Node(int num)
+
+Number_Node::Number_Node(int num): num_(num)
 {
-    this->num_ = num;
 }
 
 Number_Node::~Number_Node()
 {
 }
 
-int Number_Node::get_value()
+int Number_Node::getNumber()
 {
     return this->num_;
 }
+
+void Number_Node::token()
+{
+    std::cout << "Number: " << this->num_;
+}
+

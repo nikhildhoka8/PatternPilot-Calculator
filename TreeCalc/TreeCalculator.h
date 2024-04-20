@@ -1,21 +1,26 @@
 #ifndef TREE_CALCULATOR_H
 #define TREE_CALCULATOR_H
 
+#include <string>
+#include <cctype>
+#include <iostream>
+#include <memory>
+#include "../Templates/Stack.h"
 #include "Tree_Command_Factory.h"
-#include "Templates/Array.h"
+#include "Command_Node.h"
 
-class TreeCalculator
-{
+class TreeCalculator {
 public:
-    TreeCalculator (void);
-    ~TreeCalculator (void);
-    void infixToPostfix(const std::string& infix);
-    void run(const std::string &input);
+    TreeCalculator();
+    ~TreeCalculator();
+    void run (const std::string& infix);
+    std::unique_ptr<Command_Node> buildTree(const std::string& expression);
 
 private:
-    int result;
-    Array <std::unique_ptr<Command_Node>> postfix_;
-    Tree_Command_Factory factory_;
+    std::unique_ptr<Command_Node> root;
+    Tree_Command_Factory factory;
+    bool isOperator(char c) const;
+    std::unique_ptr<Op_Node> create_command(char op);
 };
 #include "TreeCalculator.cpp"
-#endif
+#endif // TREE_CALCULATOR_H

@@ -1,12 +1,14 @@
 #include <iostream>
 #include <string>
 #include "PostFixCalc/Calculator.h"
+#include "TreeCalc/TreeCalculator.h"
+#include "TreeCalc/Tree_Command_Factory.h"
+#include "TreeCalc/Addition_Node.h"
 
 
 
 int main() {
-
-    //run a while loop for user input, until they type QUIT
+    //un a while loop for user input, until they type QUIT
     std::string input;
     while (true) 
     {

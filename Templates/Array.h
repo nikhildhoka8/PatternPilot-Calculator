@@ -16,7 +16,7 @@
 
 #ifndef _ARRAY_H_
 #define _ARRAY_H_
-
+#include <utility>
 #include <cstring>          // for size_t definition
 #include "Base_Array.h"
 #include "Array_Iterator.h"

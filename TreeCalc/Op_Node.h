@@ -9,10 +9,15 @@ class Op_Node : public Command_Node
 {
     public:
         //constructor
-        Op_Node(std::unique_ptr<Command_Node> left, std::unique_ptr<Command_Node> right);
+        Op_Node(void);
         //destructor
         ~Op_Node();
-        virtual std::unique_ptr<Number_Node> execute() = 0;
+        void setLeft(std::unique_ptr<Command_Node> left);
+        void setRight(std::unique_ptr<Command_Node> right);
+        std::unique_ptr<Command_Node> getLeft();
+        std::unique_ptr<Command_Node> getRight();
+        virtual int getPrecedence() = 0;
+        virtual void token() = 0;
     protected:
         std::unique_ptr<Command_Node> left_;
         std::unique_ptr<Command_Node> right_;

@@ -36,7 +36,7 @@ Array <T>::Array (size_t length, T fill):
 // Copy Constructor
 template <typename T>
 Array <T>::Array (const Array & array):
-    Base_Array<T>(array)
+    Base_Array<T>(std::move(array))
 {
 }
 
@@ -60,7 +60,7 @@ void Array<T>::resize(size_t new_size) {
     T *new_data_ = new T[new_size];
     size_t elementsToCopy = std::min(new_size, this->cur_size_);
     for (size_t i = 0; i < elementsToCopy; i++) {
-        new_data_[i] = this->data_[i];
+        new_data_[i] = std::move(this->data_[i]);
     }
     delete[] this->data_;
     this->data_ = new_data_;
@@ -78,6 +78,6 @@ void Array <T>::push_back(T element)
         this->resize(this->max_size_ + 1);
     }
     //add the element to the end of the array
-    this->data_[this->cur_size_] = element;
+    this->data_[this->cur_size_] = std::move(element);
     this->cur_size_++;
 }

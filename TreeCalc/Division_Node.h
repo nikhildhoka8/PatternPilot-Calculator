@@ -6,10 +6,10 @@
 class Division_Node : public Op_Node
 {
 public:
-    Division_Node (std::unique_ptr<Command_Node> leftNode, std::unique_ptr<Command_Node> rightNode);
+    Division_Node (void);
     ~Division_Node ();
-
-    std::unique_ptr<Number_Node> execute() override;
+    int getPrecedence();
+    void token() override;
 };
-#include "Division_Node.h"
+#include "Division_Node.cpp"
 #endif

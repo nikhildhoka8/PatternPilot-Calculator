@@ -53,7 +53,7 @@ Base_Array<T>::Base_Array(const Base_Array & arr)
     //copy the data from the array
     for (size_t i = 0; i < arr.cur_size_; i++)
     {
-        this->data_[i] = arr.data_[i];
+        this->data_[i] = std::move(arr.data_[i]);
     }
 }
 
@@ -88,7 +88,7 @@ const Base_Array<T> & Base_Array<T>::operator = (const Base_Array & rhs)
         //copy the data from the right hand side
         for (size_t i = 0; i < this->cur_size_; i++)
         {
-            this->data_[i] = rhs.data_[i];
+            this->data_[i] = std::move(rhs.data_[i]);
         }
     }
     return *this;

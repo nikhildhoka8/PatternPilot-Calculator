@@ -8,7 +8,7 @@
 # this file will be lost the next time it is generated.
 #
 # MPC Command:
-# ./mwc.pl -type make ../cs363-spring2024-assignment4/
+# ./mwc.pl -type make ../cs363-spring2024-assignment4
 #
 #----------------------------------------------------------------------------
 

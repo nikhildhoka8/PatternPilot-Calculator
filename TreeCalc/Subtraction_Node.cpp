@@ -1,9 +1,19 @@
 
-Subtraction_Node::Subtraction_Node (std::unique_ptr<Command_Node> leftNode, std::unique_ptr<Command_Node> rightNode) 
-    :Op_Node(leftNode, rightNode)
+Subtraction_Node::Subtraction_Node (void) 
+    :Op_Node()
 {
 }
 
 Subtraction_Node::~Subtraction_Node(void)
 {
+}
+
+int Subtraction_Node::getPrecedence()
+{
+    return 1;
+}
+
+void Subtraction_Node::token()
+{
+    std::cout << "-";
 }

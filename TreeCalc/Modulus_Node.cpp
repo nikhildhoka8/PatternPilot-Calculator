@@ -1,10 +1,20 @@
 
 
-Modulus_Node::Modulus_Node(std::unique_ptr<Command_Node> leftNode, std::unique_ptr<Command_Node> rightNode)
-    : Op_Node(std::move(leftNode), std::move(rightNode))
+Modulus_Node::Modulus_Node()
+    : Op_Node()
 {
 }
 
 Modulus_Node::~Modulus_Node(void)
 {
+}
+
+int Modulus_Node::getPrecedence()
+{
+    return 2;
+}
+
+void Modulus_Node::token()
+{
+    std::cout << "% ";
 }
