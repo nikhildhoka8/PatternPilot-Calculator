@@ -4,6 +4,8 @@
 
 #include "Command_Node.h"
 #include "Number_Node.h"
+#include "Node_Visitor.h"
+
 
 class Op_Node : public Command_Node
 {
@@ -12,15 +14,16 @@ class Op_Node : public Command_Node
         Op_Node(void);
         //destructor
         ~Op_Node();
-        void setLeft(std::unique_ptr<Command_Node> left);
-        void setRight(std::unique_ptr<Command_Node> right);
-        std::unique_ptr<Command_Node> getLeft();
-        std::unique_ptr<Command_Node> getRight();
+        void setLeft(std::shared_ptr<Command_Node> left);
+        void setRight(std::shared_ptr<Command_Node> right);
+        std::shared_ptr<Command_Node> getLeft();
+        std::shared_ptr<Command_Node> getRight();
         virtual int getPrecedence() = 0;
-        virtual void token() = 0;
+        virtual std::string token() = 0;
+        virtual void execute(Stack<int>& stack) = 0;
     protected:
-        std::unique_ptr<Command_Node> left_;
-        std::unique_ptr<Command_Node> right_;
+        std::shared_ptr<Command_Node> left_;
+        std::shared_ptr<Command_Node> right_;
 };
 #include "Op_Node.cpp"
 #endif

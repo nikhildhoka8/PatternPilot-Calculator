@@ -22,7 +22,8 @@ int main() {
         }
         try 
         {
-            Calculator calc;
+            
+            TreeCalculator calc;
             calc.run(input);
         } catch (std::exception& e) 
         {
@@ -30,6 +31,6 @@ int main() {
         }
     }
 
-
     return 0;
 }
+

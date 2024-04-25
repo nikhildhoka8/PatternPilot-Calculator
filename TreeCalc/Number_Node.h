@@ -3,13 +3,15 @@
 
 #include <memory>
 #include "Command_Node.h"
+#include "Node_Visitor.h"
 
 class Number_Node: public Command_Node{
 public:
     Number_Node(int num);
     ~Number_Node();
     int getNumber();
-    void token();
+    std::string token();
+    void accept(Node_Visitor& visitor);
 private:
     int num_;
 

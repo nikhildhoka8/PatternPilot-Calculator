@@ -12,7 +12,7 @@ bool TreeCalculator::isOperator(char c) const {
     return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
 }
 
-std::unique_ptr<Op_Node> TreeCalculator::create_command(char op) {
+std::shared_ptr<Op_Node> TreeCalculator::create_command(char op) {
     switch (op) {
         case '+': return factory.create_addition_command();
         case '-': return factory.create_subtraction_command();
@@ -24,9 +24,25 @@ std::unique_ptr<Op_Node> TreeCalculator::create_command(char op) {
     }
 }
 
-std::unique_ptr<Command_Node> TreeCalculator::buildTree(const std::string& expression) {
-    Stack<std::unique_ptr<Command_Node>> operandStack;
-    Stack<std::unique_ptr<Op_Node>> operatorStack;
+void processOperator(Stack<std::shared_ptr<Op_Node>>& operatorStack, Stack<std::shared_ptr<Command_Node>>& operandStack) {
+    auto op = operatorStack.top();
+    operatorStack.pop();
+    if (!operandStack.is_empty()) {
+        op->setRight(operandStack.top());
+        operandStack.pop();
+    }
+    if (!operandStack.is_empty()) {
+        op->setLeft(operandStack.top());
+        operandStack.pop();
+    }
+    operandStack.push(op); // Push back as Op_Node, not as Number_Node
+}
+
+
+
+std::shared_ptr<Op_Node> TreeCalculator::buildTree(const std::string& expression) {
+    Stack<std::shared_ptr<Command_Node>> operandStack; // Store all nodes here
+    Stack<std::shared_ptr<Op_Node>> operatorStack;
 
     std::istringstream iss(expression);
     char ch;
@@ -35,51 +51,93 @@ std::unique_ptr<Command_Node> TreeCalculator::buildTree(const std::string& expre
             iss.putback(ch);
             int value;
             iss >> value;
-            operandStack.push(factory.create_number_command(value));
+            operandStack.push(std::dynamic_pointer_cast<Command_Node>(factory.create_number_command(value)));
         } else if (isOperator(ch)) {
             auto opNode = create_command(ch);
-            while (!operatorStack.is_empty() && operatorStack.top()->getPrecedence() >= opNode->getPrecedence() && operatorStack.top()->getToken() != '(') {
-                auto topOp = std::move(operatorStack.top());
-                operatorStack.pop();
-                topOp->setRight(std::move(operandStack.top()));
-                operandStack.pop();
-                topOp->setLeft(std::move(operandStack.top()));
-                operandStack.pop();
-                operandStack.push(std::move(topOp));
+            while (!operatorStack.is_empty() && operatorStack.top() != nullptr && operatorStack.top()->getPrecedence() >= opNode->getPrecedence() ) {
+                processOperator(operatorStack, operandStack);
             }
-            operatorStack.push(std::move(opNode));
+            operatorStack.push(opNode);
         } else if (ch == '(') {
+            operatorStack.push(nullptr);  // Push nullptr as a marker for '('
         } else if (ch == ')') {
-            while (!operatorStack.is_empty() && operatorStack.top()->token() != '(') {
-                auto topOp = std::move(operatorStack.top());
-                operatorStack.pop();
-                topOp->setRight(std::move(operandStack.top()));
-                operandStack.pop();
-                topOp->setLeft(std::move(operandStack.top()));
-                operandStack.pop();
-                operandStack.push(std::move(topOp));
+            while (operatorStack.top() != nullptr) {
+                processOperator(operatorStack, operandStack);
             }
+            operatorStack.pop();  // Pop the '(' marker
         }
     }
 
+    // Process remaining operators in the stack
     while (!operatorStack.is_empty()) {
-        auto topOp = std::move(operatorStack.top());
-        operatorStack.pop();
-        topOp->setRight(std::move(operandStack.top()));
-        operandStack.pop();
-        if (!operandStack.is_empty()) {
-            topOp->setLeft(std::move(operandStack.top()));
-            operandStack.pop();
-        }
-        operandStack.push(std::move(topOp));
+        processOperator(operatorStack, operandStack);
     }
 
-    return std::move(operandStack.top());
+    // The root of the expression tree should be the last operator processed
+    if (!operandStack.is_empty()) {
+        auto result = std::dynamic_pointer_cast<Op_Node>(operandStack.top());
+        if (result) {
+            return result;
+        }
+    }
+    throw std::runtime_error("Final node is not an operation node");
 }
 
-void run(const std::string & infix) {
-    root = buildTree(infix);
-    //print the root
-    root->token();
-    std::cout << std::endl;
+
+int TreeCalculator::evaluateExpression(const std::shared_ptr<Command_Node>& node) {
+    if (!node) {
+        throw std::runtime_error("Null node encountered in expression tree.");
+    }
+
+    // Dynamic cast to check if it is an Op_Node
+    std::shared_ptr<Op_Node> opNode = std::dynamic_pointer_cast<Op_Node>(node);
+    if (opNode) {
+        // It's an operator node, evaluate left and right children first
+        int leftValue = evaluateExpression(opNode->getLeft());
+        int rightValue = evaluateExpression(opNode->getRight());
+
+        std::string token = opNode->token(); // Ensure you get the token as a string
+        // Perform the operation based on the operator type
+        if (token == "+") {
+            return leftValue + rightValue;
+        } else if (token == "-") {
+            return leftValue - rightValue;
+        } else if (token == "*") {
+            return leftValue * rightValue;
+        } else if (token == "/") {
+            if (rightValue == 0) {
+                throw std::runtime_error("Division by zero.");
+            }
+            return leftValue / rightValue;
+        } else if (token == "%") {
+            if (rightValue == 0) {
+                throw std::runtime_error("Modulo by zero.");
+            }
+            return leftValue % rightValue;
+        } else {
+            throw std::runtime_error("Unsupported operation: " + token);
+        }
+    } else {
+        // It must be a Number_Node or similar, so return its integer value
+        return std::stoi(node->token());  // Assuming the token can be directly converted to an integer
+    }
 }
+
+
+
+
+void TreeCalculator::run(const std::string &infix) {
+    root = buildTree(infix);  // This should return std::shared_ptr<Op_Node> already
+    //convert root to OP_NODE
+    std::shared_ptr<Op_Node> root = std::dynamic_pointer_cast<Op_Node>(root);
+    if (root) {
+        Execute_Visitor visitor;
+        root->accept(visitor);  // Assuming each node type implements an accept() method properly
+
+        int result = visitor.getResult();
+        std::cout << "Result of Expression '" << infix << "' is: " << result << std::endl;
+    } else {
+        std::cout << "Error: The expression tree's root is not an operation node." << std::endl;
+    }
+}
+

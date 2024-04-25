@@ -13,8 +13,12 @@ int Number_Node::getNumber()
     return this->num_;
 }
 
-void Number_Node::token()
+std::string Number_Node::token()
 {
-    std::cout << "Number: " << this->num_;
+    return std::to_string(this->num_);
+}
+
+void Number_Node::accept(Node_Visitor& visitor) {
+    visitor.visit(*this);
 }
 
