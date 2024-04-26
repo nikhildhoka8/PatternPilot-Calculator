@@ -18,7 +18,4 @@ std::string Number_Node::token()
     return std::to_string(this->num_);
 }
 
-void Number_Node::accept(Node_Visitor& visitor) {
-    visitor.visit(*this);
-}
 

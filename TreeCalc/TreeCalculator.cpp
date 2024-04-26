@@ -127,17 +127,16 @@ int TreeCalculator::evaluateExpression(const std::shared_ptr<Command_Node>& node
 
 
 void TreeCalculator::run(const std::string &infix) {
-    root = buildTree(infix);  // This should return std::shared_ptr<Op_Node> already
+    root = buildTree(infix);
+    //check type of root with Op_Node
+    if(!std::dynamic_pointer_cast<Op_Node>(root)){
+        throw std::runtime_error("Root node is not an operation node");
+    }
     //convert root to OP_NODE
-    std::shared_ptr<Op_Node> root = std::dynamic_pointer_cast<Op_Node>(root);
-    if (root) {
-        Execute_Visitor visitor;
-        root->accept(visitor);  // Assuming each node type implements an accept() method properly
-
-        int result = visitor.getResult();
-        std::cout << "Result of Expression '" << infix << "' is: " << result << std::endl;
-    } else {
-        std::cout << "Error: The expression tree's root is not an operation node." << std::endl;
+    std::shared_ptr<Op_Node> opRoot = std::dynamic_pointer_cast<Op_Node>(root);
+    
+    if(root){
+        std::cout << evaluateExpression(opRoot) << std::endl;
     }
 }
 

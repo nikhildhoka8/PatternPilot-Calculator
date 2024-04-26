@@ -17,17 +17,3 @@ std::string Multiplication_Node::token()
 {
     return "*";
 }
-
-void Multiplication_Node::execute(Stack<int>& stack)
-{
-    int right = stack.top();
-    stack.pop();
-    int left = stack.top();
-    stack.pop();
-    stack.push(left * right);
-}
-
-void Multiplication_Node::accept(Node_Visitor& visitor)
-{
-    visitor.visit(*this);
-}

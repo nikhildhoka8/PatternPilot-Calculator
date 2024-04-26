@@ -4,7 +4,6 @@
 
 #include "Command_Node.h"
 #include "Number_Node.h"
-#include "Node_Visitor.h"
 
 
 class Op_Node : public Command_Node
@@ -20,7 +19,6 @@ class Op_Node : public Command_Node
         std::shared_ptr<Command_Node> getRight();
         virtual int getPrecedence() = 0;
         virtual std::string token() = 0;
-        virtual void execute(Stack<int>& stack) = 0;
     protected:
         std::shared_ptr<Command_Node> left_;
         std::shared_ptr<Command_Node> right_;

@@ -8,7 +8,6 @@
 #include "../Templates/Stack.h"
 #include "Tree_Command_Factory.h"
 #include "Command_Node.h"
-#include "Execute_Visitor.h"
 
 class TreeCalculator {
 public:

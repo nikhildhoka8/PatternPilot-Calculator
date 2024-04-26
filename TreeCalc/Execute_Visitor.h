@@ -2,9 +2,7 @@
 #ifndef EXECUTE_VISITOR_H
 #define EXECUTE_VISITOR_H
 
-#include "Node_Visitor.h"
 #include "../Templates/Stack.h"
-#include "Execute_Visitor.h"
 #include "Number_Node.h"
 #include "Addition_Node.h"
 #include "Subtraction_Node.h"
