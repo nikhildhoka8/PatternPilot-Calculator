@@ -1,7 +1,9 @@
+#pragma once
 #ifndef ADDITION_NODE_H
 #define ADDITION_NODE_H
 #include "Op_Node.h"
 #include "../Templates/Stack.h"
+class Node_Visitor;
 
 class Addition_Node : public Op_Node
 {
@@ -11,6 +13,7 @@ public:
     ~Addition_Node ();
     int getPrecedence() override;
     std::string token();
+    void accept(Node_Visitor& visitor);
 };
 #include "Addition_Node.cpp"
 #endif // !ADDITION_NODE_H

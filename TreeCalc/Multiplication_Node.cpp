@@ -17,3 +17,9 @@ std::string Multiplication_Node::token()
 {
     return "*";
 }
+
+
+void Multiplication_Node::accept(Node_Visitor& visitor)
+{
+    visitor.visit_multiplication_node(*this);
+}

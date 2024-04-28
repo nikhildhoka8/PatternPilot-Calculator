@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TREE_CALCULATOR_H
 #define TREE_CALCULATOR_H
 
@@ -8,6 +9,7 @@
 #include "../Templates/Stack.h"
 #include "Tree_Command_Factory.h"
 #include "Command_Node.h"
+#include "Op_Node.h"
 
 class TreeCalculator {
 public:

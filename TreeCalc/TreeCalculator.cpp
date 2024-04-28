@@ -73,7 +73,6 @@ std::shared_ptr<Op_Node> TreeCalculator::buildTree(const std::string& expression
         processOperator(operatorStack, operandStack);
     }
 
-    // The root of the expression tree should be the last operator processed
     if (!operandStack.is_empty()) {
         auto result = std::dynamic_pointer_cast<Op_Node>(operandStack.top());
         if (result) {
@@ -96,8 +95,7 @@ int TreeCalculator::evaluateExpression(const std::shared_ptr<Command_Node>& node
         int leftValue = evaluateExpression(opNode->getLeft());
         int rightValue = evaluateExpression(opNode->getRight());
 
-        std::string token = opNode->token(); // Ensure you get the token as a string
-        // Perform the operation based on the operator type
+        std::string token = opNode->token();
         if (token == "+") {
             return leftValue + rightValue;
         } else if (token == "-") {
@@ -138,5 +136,7 @@ void TreeCalculator::run(const std::string &infix) {
     if(root){
         std::cout << evaluateExpression(opRoot) << std::endl;
     }
+    //checking if execute_visitor is working
+    Execute_Visitor ev;
 }
 

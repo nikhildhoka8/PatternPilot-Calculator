@@ -19,3 +19,7 @@ std::string Number_Node::token()
 }
 
 
+void Number_Node::accept(Node_Visitor& visitor)
+{
+    visitor.visit_number_node(*this);
+}

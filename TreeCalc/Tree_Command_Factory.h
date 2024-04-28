@@ -1,9 +1,9 @@
+#pragma once
 #ifndef TREE_COMMAND_FACTORY_H
 #define TREE_COMMAND_FACTORY_H
 
 #include "Addition_Node.h"
 #include "Number_Node.h"
-#include "Op_Node.h"
 #include "Subtraction_Node.h"
 #include "Multiplication_Node.h"
 #include "Division_Node.h"

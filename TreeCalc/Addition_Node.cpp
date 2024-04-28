@@ -19,3 +19,9 @@ std::string Addition_Node::token()
 {
     return "+";
 }
+
+
+void Addition_Node::accept(Node_Visitor& visitor)
+{
+    visitor.visit_addition_node(*this);
+}

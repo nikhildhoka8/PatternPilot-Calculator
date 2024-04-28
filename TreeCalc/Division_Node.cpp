@@ -18,3 +18,9 @@ std::string Division_Node::token()
 {
     return "/";
 }
+
+
+void Division_Node::accept(Node_Visitor& visitor)
+{
+    visitor.visit_division_node(*this);
+}

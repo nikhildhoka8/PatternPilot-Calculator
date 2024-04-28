@@ -17,3 +17,8 @@ std::string Subtraction_Node::token()
 {
     return "-";
 }
+
+void Subtraction_Node::accept(Node_Visitor& visitor)
+{
+    visitor.visit_subtraction_node(*this);
+}

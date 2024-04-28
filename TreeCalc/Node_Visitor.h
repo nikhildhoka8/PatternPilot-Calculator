@@ -1,21 +1,26 @@
+#pragma once
 #ifndef NODE_VISITOR_H
 #define NODE_VISITOR_H
 
-#include "Number_Node.h"
-#include "Addition_Node.h"
-#include "Subtraction_Node.h"
-#include "Multiplication_Node.h"
-#include "Division_Node.h"
-#include "Modulus_Node.h"
+
+class Number_Node;
+class Addition_Node;
+class Subtraction_Node;
+class Multiplication_Node;
+class Division_Node;
+class Modulus_Node;
+
 
 class Node_Visitor
 {
 public:
-    virtual void visit(Number_Node& node) = 0;
-    virtual void visit(Addition_Node& node) = 0;
-    virtual void visit(Subtraction_Node& node) = 0;
-    virtual void visit(Multiplication_Node& node) = 0;
-    virtual void visit(Division_Node& node) = 0;
-    virtual void visit(Modulus_Node& node) = 0;
+    Node_Visitor() = default;
+    virtual ~Node_Visitor() = default;
+    virtual void visit_number_node(Number_Node& node) = 0;
+    virtual void visit_addition_node(Addition_Node& node) = 0;
+    virtual void visit_subtraction_node(Subtraction_Node& node) = 0;
+    virtual void visit_multiplication_node(Multiplication_Node& node) = 0;
+    virtual void visit_division_node(Division_Node& node) = 0;
+    virtual void visit_modulus_node(Modulus_Node& node) = 0;
 };
-#endif
+#endif // NODE_VISITOR_H

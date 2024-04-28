@@ -18,3 +18,9 @@ std::string Modulus_Node::token()
 {
     return "%";
 }
+
+
+void Modulus_Node::accept(Node_Visitor& visitor)
+{
+    visitor.visit_modulus_node(*this);
+}
