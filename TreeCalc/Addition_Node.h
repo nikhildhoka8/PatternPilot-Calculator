@@ -3,7 +3,7 @@
 #define ADDITION_NODE_H
 #include "Op_Node.h"
 #include "../Templates/Stack.h"
-class Node_Visitor;
+#include "Node_Visitor.h"
 
 class Addition_Node : public Op_Node
 {

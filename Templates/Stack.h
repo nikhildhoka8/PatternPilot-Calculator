@@ -9,7 +9,7 @@
  * on this assignment.
  */
 //==============================================================================
-
+#pragma once
 #ifndef _CS507_STACK_H_
 #define _CS507_STACK_H_
 #include <exception>

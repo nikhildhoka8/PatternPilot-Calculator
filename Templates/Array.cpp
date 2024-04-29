@@ -7,8 +7,6 @@
 
 #include <stdexcept>         // for std::out_of_bounds exception
 
-
-
 // Default Constructor
 template <typename T>
 Array <T>::Array (void): 
