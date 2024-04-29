@@ -108,7 +108,6 @@ int TreeCalculator::evaluateExpression(const std::shared_ptr<Command_Node>& node
     // Dynamic cast to check if it is an Op_Node
     std::shared_ptr<Op_Node> opNode = std::dynamic_pointer_cast<Op_Node>(node);
     if (opNode) {
-        // It's an operator node, evaluate left and right children first
         int leftValue = evaluateExpression(opNode->getLeft());
         int rightValue = evaluateExpression(opNode->getRight());
 
@@ -133,8 +132,7 @@ int TreeCalculator::evaluateExpression(const std::shared_ptr<Command_Node>& node
             throw std::runtime_error("Unsupported operation: " + token);
         }
     } else {
-        // It must be a Number_Node or similar, so return its integer value
-        return std::stoi(node->token());  // Assuming the token can be directly converted to an integer
+        return std::stoi(node->token());
     }
 }
 
@@ -236,15 +234,14 @@ bool TreeCalculator::isOperator(const std::string& c) const {
 void TreeCalculator::run(const std::string &infix) {
     root = buildTree(infix);
     if(root){
-    //checking if execute_visitor is working
         Execute_Visitor ev;
-        // Call the accept method on the root node, passing the visitor object
+        //call the accept method on the root node, passing the visitor object
         root->accept(ev);
 
-        // Get the result from the visitor
+        //get the result from the visitor
         int result = ev.getResult();
 
-        // Print the result
+        //print the result
         std::cout << "Result: " << result << std::endl;
     }
 
