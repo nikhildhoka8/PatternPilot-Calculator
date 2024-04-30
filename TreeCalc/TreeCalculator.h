@@ -19,7 +19,6 @@ public:
     ~TreeCalculator();
     void run (const std::string& infix);
     std::shared_ptr<Command_Node> buildTree(const std::string& expression);
-    int evaluateExpression(const std::shared_ptr<Command_Node>& node);
     std::string preProcessExpression(const std::string& infixParam);
     std::string ensureSpaceAroundParentheses(const std::string& infix);
 

@@ -100,42 +100,6 @@ std::shared_ptr<Command_Node> TreeCalculator::buildTree(const std::string& expre
     throw std::runtime_error("Final node is not an operation node");
 }
 
-int TreeCalculator::evaluateExpression(const std::shared_ptr<Command_Node>& node) {
-    if (!node) {
-        throw std::runtime_error("Null node encountered in expression tree.");
-    }
-
-    // Dynamic cast to check if it is an Op_Node
-    std::shared_ptr<Op_Node> opNode = std::dynamic_pointer_cast<Op_Node>(node);
-    if (opNode) {
-        int leftValue = evaluateExpression(opNode->getLeft());
-        int rightValue = evaluateExpression(opNode->getRight());
-
-        std::string token = opNode->token();
-        if (token == "+") {
-            return leftValue + rightValue;
-        } else if (token == "-") {
-            return leftValue - rightValue;
-        } else if (token == "*") {
-            return leftValue * rightValue;
-        } else if (token == "/") {
-            if (rightValue == 0) {
-                throw std::runtime_error("Division by zero.");
-            }
-            return leftValue / rightValue;
-        } else if (token == "%") {
-            if (rightValue == 0) {
-                throw std::runtime_error("Modulo by zero.");
-            }
-            return leftValue % rightValue;
-        } else {
-            throw std::runtime_error("Unsupported operation: " + token);
-        }
-    } else {
-        return std::stoi(node->token());
-    }
-}
-
 std::string TreeCalculator::ensureSpaceAroundParentheses(const std::string& infix)
 {
     std::string processed;
