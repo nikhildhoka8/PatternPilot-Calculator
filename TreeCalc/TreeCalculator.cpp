@@ -1,6 +1,6 @@
 TreeCalculator::TreeCalculator() 
 {
-    factory = Tree_Command_Factory();
+    builder = Tree_Builder();
     root = nullptr;
 }
 
@@ -12,13 +12,13 @@ bool TreeCalculator::isOperator(char c) const {
     return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
 }
 
-std::shared_ptr<Op_Node> TreeCalculator::create_command(char op) {
+std::shared_ptr<Op_Node> TreeCalculator::build_command(char op) {
     switch (op) {
-        case '+': return factory.create_addition_command();
-        case '-': return factory.create_subtraction_command();
-        case '*': return factory.create_multiplication_command();
-        case '/': return factory.create_division_command();
-        case '%': return factory.create_modulus_command();
+        case '+': return builder.build_addition_command();
+        case '-': return builder.build_subtraction_command();
+        case '*': return builder.build_multiplication_command();
+        case '/': return builder.build_division_command();
+        case '%': return builder.build_modulus_command();
         default:
             throw std::runtime_error("Unsupported operator");
     }
@@ -46,7 +46,7 @@ std::shared_ptr<Command_Node> TreeCalculator::buildTree(const std::string& expre
     std:: string infixProcessed = preProcessExpression(expression);
     //check if it is only one number. If it is, return a number node
     if(infixProcessed.find(' ') == std::string::npos){
-        return std::dynamic_pointer_cast<Command_Node>(factory.create_number_command(std::stoi(infixProcessed)));
+        return std::dynamic_pointer_cast<Command_Node>(builder.build_number_command(std::stoi(infixProcessed)));
     }
     std::istringstream iss(infixProcessed);
     char ch;
@@ -55,23 +55,23 @@ std::shared_ptr<Command_Node> TreeCalculator::buildTree(const std::string& expre
             iss.putback(ch);
             int value;
             iss >> value;
-            operandStack.push(std::dynamic_pointer_cast<Command_Node>(factory.create_number_command(value)));
+            operandStack.push(std::dynamic_pointer_cast<Command_Node>(builder.build_number_command(value)));
         } else if (ch == '-') {
             //check if the next character is a digit
             if (iss.peek() && isdigit(iss.peek())) {
                 int value;
                 iss >> value;
-                operandStack.push(std::dynamic_pointer_cast<Command_Node>(factory.create_number_command(-value)));
+                operandStack.push(std::dynamic_pointer_cast<Command_Node>(builder.build_number_command(-value)));
             } else {
                 //treat as a separate operator
-                auto opNode = create_command(ch);
+                auto opNode = build_command(ch);
                 while (!operatorStack.is_empty() && operatorStack.top() != nullptr && operatorStack.top()->getPrecedence() >= opNode->getPrecedence() ) {
                     processOperator(operatorStack, operandStack);
                 }
                 operatorStack.push(opNode);
             }
         } else if (isOperator(ch)) {
-            auto opNode = create_command(ch);
+            auto opNode = build_command(ch);
             while (!operatorStack.is_empty() && operatorStack.top() != nullptr && operatorStack.top()->getPrecedence() >= opNode->getPrecedence() ) {
                 processOperator(operatorStack, operandStack);
             }

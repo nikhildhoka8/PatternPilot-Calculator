@@ -8,7 +8,7 @@
 #include <memory>
 #include "../Templates/Array.h"
 #include "../Templates/Stack.h"
-#include "Tree_Command_Factory.h"
+#include "Tree_Builder.h"
 #include "Command_Node.h"
 #include "Op_Node.h"
 #include "Execute_Visitor.h"
@@ -25,10 +25,10 @@ public:
 
 private:
     std::shared_ptr<Command_Node> root;
-    Tree_Command_Factory factory;
+    Tree_Builder builder;
     bool isOperator(char c) const;
     bool isOperator(const std::string& c) const;
-    std::shared_ptr<Op_Node> create_command(char op);
+    std::shared_ptr<Op_Node> build_command(char op);
 };
 #include "TreeCalculator.cpp"
 #endif // TREE_CALCULATOR_H
