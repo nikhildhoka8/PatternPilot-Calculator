@@ -29,9 +29,9 @@ The program is built in C++ and utilizes the MPC library.
    make
    ```
 4. To run the program use the following command:
-```
-./assignment4
-```
+   ```
+   ./assignment4
+   ```
 
 ## Runtime Environment
 This program is designed to run on Linux. Ensure you meet the following requirements:
